@@ -92,20 +92,16 @@ string fileMang::fopenFile(std::string name, std::string mode, std::string text,
 		string fileModeInList = fileCheckitr->second.substr(0, fileCheckitr->second.find(","));
 		string fileNameInList = fileCheckitr->second.substr(fileCheckitr->second.find(",") + 1);
 
-		if (fileModeInList == mode && fileCheckitr->first != Id) {
-			break;
-		}
-
-		if ((fileNameInList == name)) {
-			checkFlag = 1;
-			if (fileModeInList == "w" || fileModeInList == "a") {
-				datatoReturn = "File is already opened for modification (OR write-mode) by other users.So cannot open it right now";
-			}
-			else if (fileModeInList == "r") {
-				datatoReturn = "Some other user is reading the file. So, cannot open it for modification";
+		if (name == fileNameInList) {
+			if (fileModeInList == "r" && mode == "r") {
+				checkFlag = 0;
+				cout << "New User Opens the Files" << endl;
+				datatoReturn = "";
 				break;
-			}		
-			//datatoReturn = "Name: " + fileNameInList + ", Mode: " + fileModeInList + "(already working in a file)";
+			}
+			checkFlag = 1;
+			datatoReturn = "Some other user is already working on the file";
+			cout << datatoReturn;
 			break;
 		}
 	}
@@ -120,7 +116,7 @@ string fileMang::fopenFile(std::string name, std::string mode, std::string text,
 
 	if (mode == "a") {
 
-		pthread_mutex_lock(&mutex);
+		//pthread_mutex_lock(&mutex);
 
 		Filecurr = NULL;
 		Filehead = NULL;
@@ -207,7 +203,8 @@ string fileMang::fopenFile(std::string name, std::string mode, std::string text,
 			cout << endl;
 		}
 
-		pthread_mutex_unlock(&mutex);
+		//pthread_mutex_unlock(&mutex);
+		return "Succesfully written the Data in File";
 
 	}
 
@@ -281,7 +278,7 @@ string fileMang::fopenFile(std::string name, std::string mode, std::string text,
 		}
 		cout << "done" << endl << endl << endl << endl;
 	//	pthread_mutex_unlock(&mutex);
-		return "Succesfully wirtten the Data in File";
+		return "Succesfully written the Data in File";
 
 	}
 
