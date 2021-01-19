@@ -96,13 +96,14 @@ string fileMang::fopenFile(std::string name, std::string mode, std::string text,
 			break;
 		}
 
-		if (((fileModeInList == "w" || fileModeInList == "r" || fileModeInList == "a") && fileNameInList == name)) {
+		if ((fileNameInList == name)) {
 			checkFlag = 1;
 			if (fileModeInList == "w" || fileModeInList == "a") {
-				datatoReturn = "File is already opened for modification(WRITE - MODE) by other users.So cannot open it in READ_MODE";
+				datatoReturn = "File is already opened for modification (OR write-mode) by other users.So cannot open it right now";
 			}
 			else if (fileModeInList == "r") {
 				datatoReturn = "Some other user is reading the file. So, cannot open it for modification";
+				break;
 			}		
 			//datatoReturn = "Name: " + fileNameInList + ", Mode: " + fileModeInList + "(already working in a file)";
 			break;
